@@ -1,15 +1,18 @@
-# Déclaration du fournisseur
+# Fournisseur Azure
 provider "azurerm" {
   features {}
+  
+  subscription_id = "6c46b4a5-11a4-41b7-b219-51cf755d4529"
+
 }
 
-# Création du Groupe de Ressources
+# Création du groupe de ressources
 resource "azurerm_resource_group" "rg" {
   name     = "rg-restoproch"
   location = "West Europe"
 }
 
-# Configuration du Réseau
+# Création du réseau virtuel
 resource "azurerm_virtual_network" "vnet" {
   name                = "vnet-restoproch"
   location            = azurerm_resource_group.rg.location
@@ -17,7 +20,7 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = ["10.0.0.0/16"]
 }
 
-# Création des Sous-Réseaux
+# Création des sous-réseaux pour backend et frontend
 resource "azurerm_subnet" "subnet_back" {
   name                 = "subnet-backend"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -32,8 +35,35 @@ resource "azurerm_subnet" "subnet_front" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
-# Création des Machines Virtuelles pour le Backend et le Frontend
-# Création du modèle pour les VM backend
+# Interfaces réseau pour les machines virtuelles backend
+resource "azurerm_network_interface" "nic_back" {
+  count               = 2
+  name                = "nic-back-${count.index}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  ip_configuration {
+    name                          = "ipconfig"
+    subnet_id                     = azurerm_subnet.subnet_back.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+# Interfaces réseau pour les machines virtuelles frontend
+resource "azurerm_network_interface" "nic_front" {
+  count               = 2
+  name                = "nic-front-${count.index}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  ip_configuration {
+    name                          = "ipconfig"
+    subnet_id                     = azurerm_subnet.subnet_front.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+# Création des machines virtuelles backend
 resource "azurerm_linux_virtual_machine" "vm_back" {
   count               = 2
   name                = "back-vm-${count.index}"
@@ -60,7 +90,7 @@ resource "azurerm_linux_virtual_machine" "vm_back" {
   }
 }
 
-# Création du modèle pour les VM frontend
+# Création des machines virtuelles frontend
 resource "azurerm_linux_virtual_machine" "vm_front" {
   count               = 2
   name                = "front-vm-${count.index}"
@@ -87,25 +117,40 @@ resource "azurerm_linux_virtual_machine" "vm_front" {
   }
 }
 
-# Mise en place du Load Balancer
-# Load Balancer pour les VM Backend
+# Création du Load Balancer pour les machines backend
+resource "azurerm_public_ip" "pip_back" {
+  name                = "pip-back"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Static"  # Changement vers Static
+  sku                 = "Standard"
+}
+
 resource "azurerm_lb" "lb_back" {
   name                = "lb-back"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  sku                 = "Basic"
+  sku                 = "Standard"
   frontend_ip_configuration {
     name                 = "PublicIPAddressBack"
     public_ip_address_id = azurerm_public_ip.pip_back.id
   }
 }
 
-# Load Balancer pour les VM Frontend
+# Création du Load Balancer pour les machines frontend
+resource "azurerm_public_ip" "pip_front" {
+  name                = "pip-front"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Static"  # Changement vers Static
+  sku                 = "Standard"
+}
+
 resource "azurerm_lb" "lb_front" {
   name                = "lb-front"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  sku                 = "Basic"
+  sku                 = "Standard"
   frontend_ip_configuration {
     name                 = "PublicIPAddressFront"
     public_ip_address_id = azurerm_public_ip.pip_front.id
