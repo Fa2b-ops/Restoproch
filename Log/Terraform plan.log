@@ -1,0 +1,494 @@
+fabien@debianVM:~/Restoproch$ terraform plan
+azurerm_resource_group.rg: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch]
+azurerm_virtual_network.vnet: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Network/virtualNetworks/vnet-restoproch]
+azurerm_subnet.subnet_front: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Network/virtualNetworks/vnet-restoproch/subnets/subnet-frontend]
+azurerm_subnet.subnet_back: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Network/virtualNetworks/vnet-restoproch/subnets/subnet-backend]
+azurerm_network_interface.nic_front[0]: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Network/networkInterfaces/nic-front-0]
+azurerm_network_interface.nic_front[1]: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Network/networkInterfaces/nic-front-1]
+azurerm_network_interface.nic_back[1]: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Network/networkInterfaces/nic-back-1]
+azurerm_network_interface.nic_back[0]: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Network/networkInterfaces/nic-back-0]
+azurerm_linux_virtual_machine.vm_back[1]: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Compute/virtualMachines/back-vm-1]
+azurerm_linux_virtual_machine.vm_back[0]: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Compute/virtualMachines/back-vm-0]
+azurerm_linux_virtual_machine.vm_front[1]: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Compute/virtualMachines/front-vm-1]
+azurerm_linux_virtual_machine.vm_front[0]: Refreshing state... [id=/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Compute/virtualMachines/front-vm-0]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply" which may have
+affected this plan:
+
+  # azurerm_subnet.subnet_back has been deleted
+  - resource "azurerm_subnet" "subnet_back" {
+      - id                                            = "/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Network/virtualNetworks/vnet-restoproch/subnets/subnet-backend" -> null
+        name                                          = "subnet-backend"
+        # (6 unchanged attributes hidden)
+    }
+
+  # azurerm_subnet.subnet_front has been deleted
+  - resource "azurerm_subnet" "subnet_front" {
+      - id                                            = "/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Network/virtualNetworks/vnet-restoproch/subnets/subnet-frontend" -> null
+        name                                          = "subnet-frontend"
+        # (6 unchanged attributes hidden)
+    }
+
+  # azurerm_virtual_network.vnet has been deleted
+  - resource "azurerm_virtual_network" "vnet" {
+        id                      = "/subscriptions/6c46b4a5-11a4-41b7-b219-51cf755d4529/resourceGroups/rg-restoproch/providers/Microsoft.Network/virtualNetworks/vnet-restoproch"
+      - name                    = "vnet-restoproch" -> null
+        # (9 unchanged attributes hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes,
+the following plan may include actions to undo or respond to these changes.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_lb.lb_back will be created
+  + resource "azurerm_lb" "lb_back" {
+      + id                   = (known after apply)
+      + location             = "westeurope"
+      + name                 = "lb-back"
+      + private_ip_address   = (known after apply)
+      + private_ip_addresses = (known after apply)
+      + resource_group_name  = "rg-restoproch"
+      + sku                  = "Standard"
+      + sku_tier             = "Regional"
+
+      + frontend_ip_configuration {
+          + gateway_load_balancer_frontend_ip_configuration_id = (known after apply)
+          + id                                                 = (known after apply)
+          + inbound_nat_rules                                  = (known after apply)
+          + load_balancer_rules                                = (known after apply)
+          + name                                               = "PublicIPAddressBack"
+          + outbound_rules                                     = (known after apply)
+          + private_ip_address                                 = (known after apply)
+          + private_ip_address_allocation                      = (known after apply)
+          + private_ip_address_version                         = (known after apply)
+          + public_ip_address_id                               = (known after apply)
+          + public_ip_prefix_id                                = (known after apply)
+          + subnet_id                                          = (known after apply)
+        }
+    }
+
+  # azurerm_lb.lb_front will be created
+  + resource "azurerm_lb" "lb_front" {
+      + id                   = (known after apply)
+      + location             = "westeurope"
+      + name                 = "lb-front"
+      + private_ip_address   = (known after apply)
+      + private_ip_addresses = (known after apply)
+      + resource_group_name  = "rg-restoproch"
+      + sku                  = "Standard"
+      + sku_tier             = "Regional"
+
+      + frontend_ip_configuration {
+          + gateway_load_balancer_frontend_ip_configuration_id = (known after apply)
+          + id                                                 = (known after apply)
+          + inbound_nat_rules                                  = (known after apply)
+          + load_balancer_rules                                = (known after apply)
+          + name                                               = "PublicIPAddressFront"
+          + outbound_rules                                     = (known after apply)
+          + private_ip_address                                 = (known after apply)
+          + private_ip_address_allocation                      = (known after apply)
+          + private_ip_address_version                         = (known after apply)
+          + public_ip_address_id                               = (known after apply)
+          + public_ip_prefix_id                                = (known after apply)
+          + subnet_id                                          = (known after apply)
+        }
+    }
+
+  # azurerm_linux_virtual_machine.vm_back[0] will be created
+  + resource "azurerm_linux_virtual_machine" "vm_back" {
+      + admin_username                                         = "azureuser"
+      + allow_extension_operations                             = true
+      + bypass_platform_safety_checks_on_user_schedule_enabled = false
+      + computer_name                                          = (known after apply)
+      + disable_password_authentication                        = true
+      + disk_controller_type                                   = (known after apply)
+      + extensions_time_budget                                 = "PT1H30M"
+      + id                                                     = (known after apply)
+      + location                                               = "westeurope"
+      + max_bid_price                                          = -1
+      + name                                                   = "back-vm-0"
+      + network_interface_ids                                  = (known after apply)
+      + patch_assessment_mode                                  = "ImageDefault"
+      + patch_mode                                             = "ImageDefault"
+      + platform_fault_domain                                  = -1
+      + priority                                               = "Regular"
+      + private_ip_address                                     = (known after apply)
+      + private_ip_addresses                                   = (known after apply)
+      + provision_vm_agent                                     = true
+      + public_ip_address                                      = (known after apply)
+      + public_ip_addresses                                    = (known after apply)
+      + resource_group_name                                    = "rg-restoproch"
+      + size                                                   = "Standard_B1s"
+      + virtual_machine_id                                     = (known after apply)
+      + vm_agent_platform_updates_enabled                      = false
+
+      + admin_ssh_key {
+          + public_key = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCmsskpPZPRk8E/EjHofFCegzRYUV6p9xqR9WFlJYdP5gZrGrGVVRz0twu49UrxS2MhEbn41iSnKzg+/ufCQgIWWsne0IwrbDvA1YvrdGrZ2hk8AAv+8X3hDkiItP6YhIkUPJ9Wqt7CXqR+TvVHdUrKeG+KVq2CzO2jay+Ldwn6M+vDTLnwTN3Ew1AcM8au4TQc1EWUdx8EKR2YB1X8UuU2QiSSPPingJyuo/Tw2RxfMYxV1gbd/QMTKGesSGKeWHOB0kq7HWV6eZsKud+DZglx9O/BCk/GpJ5u9Yof0+ovWxV61HA9oD589ro/4qhyHr1BayO6DDpWx184tBcc0iJKALwj3bmK0DdegUKEzMMUkbdh0+M62F9xzoJBhqj2YggQWf+Kb0ipQS+1ZYe2HR2pIKK5SvQXPZ+mvbe5SFUL0t5ZuDAVfbRuaAWH5/3w9maTcfGZl5FMpSgqJc9QvWhYX9iJksWaSTpFlqmwdyIGfrikzCXe4ZpwvwNg/jzee+1aBcWAIRU9pYIxNFO7Wt3X6WBn8I5s91uKtlUsyrF8UEC7j/zPf7727ae8p5cXzTffGjnOZslur/vEmfQKS967W7AbPLcIjVzsgb8i1VmObNjVG5YXUORF2TI067SJjDHnKM+yjN53Bkh7l++m2xNroQYm3WU5RSRv/9Js9+xv9Q== fabien@debianVM
+            EOT
+          + username   = "azureuser"
+        }
+
+      + os_disk {
+          + caching                   = "ReadWrite"
+          + disk_size_gb              = (known after apply)
+          + name                      = (known after apply)
+          + storage_account_type      = "Standard_LRS"
+          + write_accelerator_enabled = false
+        }
+
+      + source_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "18.04-LTS"
+          + version   = "latest"
+        }
+
+      + termination_notification (known after apply)
+    }
+
+  # azurerm_linux_virtual_machine.vm_back[1] will be created
+  + resource "azurerm_linux_virtual_machine" "vm_back" {
+      + admin_username                                         = "azureuser"
+      + allow_extension_operations                             = true
+      + bypass_platform_safety_checks_on_user_schedule_enabled = false
+      + computer_name                                          = (known after apply)
+      + disable_password_authentication                        = true
+      + disk_controller_type                                   = (known after apply)
+      + extensions_time_budget                                 = "PT1H30M"
+      + id                                                     = (known after apply)
+      + location                                               = "westeurope"
+      + max_bid_price                                          = -1
+      + name                                                   = "back-vm-1"
+      + network_interface_ids                                  = (known after apply)
+      + patch_assessment_mode                                  = "ImageDefault"
+      + patch_mode                                             = "ImageDefault"
+      + platform_fault_domain                                  = -1
+      + priority                                               = "Regular"
+      + private_ip_address                                     = (known after apply)
+      + private_ip_addresses                                   = (known after apply)
+      + provision_vm_agent                                     = true
+      + public_ip_address                                      = (known after apply)
+      + public_ip_addresses                                    = (known after apply)
+      + resource_group_name                                    = "rg-restoproch"
+      + size                                                   = "Standard_B1s"
+      + virtual_machine_id                                     = (known after apply)
+      + vm_agent_platform_updates_enabled                      = false
+
+      + admin_ssh_key {
+          + public_key = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCmsskpPZPRk8E/EjHofFCegzRYUV6p9xqR9WFlJYdP5gZrGrGVVRz0twu49UrxS2MhEbn41iSnKzg+/ufCQgIWWsne0IwrbDvA1YvrdGrZ2hk8AAv+8X3hDkiItP6YhIkUPJ9Wqt7CXqR+TvVHdUrKeG+KVq2CzO2jay+Ldwn6M+vDTLnwTN3Ew1AcM8au4TQc1EWUdx8EKR2YB1X8UuU2QiSSPPingJyuo/Tw2RxfMYxV1gbd/QMTKGesSGKeWHOB0kq7HWV6eZsKud+DZglx9O/BCk/GpJ5u9Yof0+ovWxV61HA9oD589ro/4qhyHr1BayO6DDpWx184tBcc0iJKALwj3bmK0DdegUKEzMMUkbdh0+M62F9xzoJBhqj2YggQWf+Kb0ipQS+1ZYe2HR2pIKK5SvQXPZ+mvbe5SFUL0t5ZuDAVfbRuaAWH5/3w9maTcfGZl5FMpSgqJc9QvWhYX9iJksWaSTpFlqmwdyIGfrikzCXe4ZpwvwNg/jzee+1aBcWAIRU9pYIxNFO7Wt3X6WBn8I5s91uKtlUsyrF8UEC7j/zPf7727ae8p5cXzTffGjnOZslur/vEmfQKS967W7AbPLcIjVzsgb8i1VmObNjVG5YXUORF2TI067SJjDHnKM+yjN53Bkh7l++m2xNroQYm3WU5RSRv/9Js9+xv9Q== fabien@debianVM
+            EOT
+          + username   = "azureuser"
+        }
+
+      + os_disk {
+          + caching                   = "ReadWrite"
+          + disk_size_gb              = (known after apply)
+          + name                      = (known after apply)
+          + storage_account_type      = "Standard_LRS"
+          + write_accelerator_enabled = false
+        }
+
+      + source_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "18.04-LTS"
+          + version   = "latest"
+        }
+
+      + termination_notification (known after apply)
+    }
+
+  # azurerm_linux_virtual_machine.vm_front[0] will be created
+  + resource "azurerm_linux_virtual_machine" "vm_front" {
+      + admin_username                                         = "azureuser"
+      + allow_extension_operations                             = true
+      + bypass_platform_safety_checks_on_user_schedule_enabled = false
+      + computer_name                                          = (known after apply)
+      + disable_password_authentication                        = true
+      + disk_controller_type                                   = (known after apply)
+      + extensions_time_budget                                 = "PT1H30M"
+      + id                                                     = (known after apply)
+      + location                                               = "westeurope"
+      + max_bid_price                                          = -1
+      + name                                                   = "front-vm-0"
+      + network_interface_ids                                  = (known after apply)
+      + patch_assessment_mode                                  = "ImageDefault"
+      + patch_mode                                             = "ImageDefault"
+      + platform_fault_domain                                  = -1
+      + priority                                               = "Regular"
+      + private_ip_address                                     = (known after apply)
+      + private_ip_addresses                                   = (known after apply)
+      + provision_vm_agent                                     = true
+      + public_ip_address                                      = (known after apply)
+      + public_ip_addresses                                    = (known after apply)
+      + resource_group_name                                    = "rg-restoproch"
+      + size                                                   = "Standard_B1s"
+      + virtual_machine_id                                     = (known after apply)
+      + vm_agent_platform_updates_enabled                      = false
+
+      + admin_ssh_key {
+          + public_key = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCmsskpPZPRk8E/EjHofFCegzRYUV6p9xqR9WFlJYdP5gZrGrGVVRz0twu49UrxS2MhEbn41iSnKzg+/ufCQgIWWsne0IwrbDvA1YvrdGrZ2hk8AAv+8X3hDkiItP6YhIkUPJ9Wqt7CXqR+TvVHdUrKeG+KVq2CzO2jay+Ldwn6M+vDTLnwTN3Ew1AcM8au4TQc1EWUdx8EKR2YB1X8UuU2QiSSPPingJyuo/Tw2RxfMYxV1gbd/QMTKGesSGKeWHOB0kq7HWV6eZsKud+DZglx9O/BCk/GpJ5u9Yof0+ovWxV61HA9oD589ro/4qhyHr1BayO6DDpWx184tBcc0iJKALwj3bmK0DdegUKEzMMUkbdh0+M62F9xzoJBhqj2YggQWf+Kb0ipQS+1ZYe2HR2pIKK5SvQXPZ+mvbe5SFUL0t5ZuDAVfbRuaAWH5/3w9maTcfGZl5FMpSgqJc9QvWhYX9iJksWaSTpFlqmwdyIGfrikzCXe4ZpwvwNg/jzee+1aBcWAIRU9pYIxNFO7Wt3X6WBn8I5s91uKtlUsyrF8UEC7j/zPf7727ae8p5cXzTffGjnOZslur/vEmfQKS967W7AbPLcIjVzsgb8i1VmObNjVG5YXUORF2TI067SJjDHnKM+yjN53Bkh7l++m2xNroQYm3WU5RSRv/9Js9+xv9Q== fabien@debianVM
+            EOT
+          + username   = "azureuser"
+        }
+
+      + os_disk {
+          + caching                   = "ReadWrite"
+          + disk_size_gb              = (known after apply)
+          + name                      = (known after apply)
+          + storage_account_type      = "Standard_LRS"
+          + write_accelerator_enabled = false
+        }
+
+      + source_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "18.04-LTS"
+          + version   = "latest"
+        }
+
+      + termination_notification (known after apply)
+    }
+
+  # azurerm_linux_virtual_machine.vm_front[1] will be created
+  + resource "azurerm_linux_virtual_machine" "vm_front" {
+      + admin_username                                         = "azureuser"
+      + allow_extension_operations                             = true
+      + bypass_platform_safety_checks_on_user_schedule_enabled = false
+      + computer_name                                          = (known after apply)
+      + disable_password_authentication                        = true
+      + disk_controller_type                                   = (known after apply)
+      + extensions_time_budget                                 = "PT1H30M"
+      + id                                                     = (known after apply)
+      + location                                               = "westeurope"
+      + max_bid_price                                          = -1
+      + name                                                   = "front-vm-1"
+      + network_interface_ids                                  = (known after apply)
+      + patch_assessment_mode                                  = "ImageDefault"
+      + patch_mode                                             = "ImageDefault"
+      + platform_fault_domain                                  = -1
+      + priority                                               = "Regular"
+      + private_ip_address                                     = (known after apply)
+      + private_ip_addresses                                   = (known after apply)
+      + provision_vm_agent                                     = true
+      + public_ip_address                                      = (known after apply)
+      + public_ip_addresses                                    = (known after apply)
+      + resource_group_name                                    = "rg-restoproch"
+      + size                                                   = "Standard_B1s"
+      + virtual_machine_id                                     = (known after apply)
+      + vm_agent_platform_updates_enabled                      = false
+
+      + admin_ssh_key {
+          + public_key = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCmsskpPZPRk8E/EjHofFCegzRYUV6p9xqR9WFlJYdP5gZrGrGVVRz0twu49UrxS2MhEbn41iSnKzg+/ufCQgIWWsne0IwrbDvA1YvrdGrZ2hk8AAv+8X3hDkiItP6YhIkUPJ9Wqt7CXqR+TvVHdUrKeG+KVq2CzO2jay+Ldwn6M+vDTLnwTN3Ew1AcM8au4TQc1EWUdx8EKR2YB1X8UuU2QiSSPPingJyuo/Tw2RxfMYxV1gbd/QMTKGesSGKeWHOB0kq7HWV6eZsKud+DZglx9O/BCk/GpJ5u9Yof0+ovWxV61HA9oD589ro/4qhyHr1BayO6DDpWx184tBcc0iJKALwj3bmK0DdegUKEzMMUkbdh0+M62F9xzoJBhqj2YggQWf+Kb0ipQS+1ZYe2HR2pIKK5SvQXPZ+mvbe5SFUL0t5ZuDAVfbRuaAWH5/3w9maTcfGZl5FMpSgqJc9QvWhYX9iJksWaSTpFlqmwdyIGfrikzCXe4ZpwvwNg/jzee+1aBcWAIRU9pYIxNFO7Wt3X6WBn8I5s91uKtlUsyrF8UEC7j/zPf7727ae8p5cXzTffGjnOZslur/vEmfQKS967W7AbPLcIjVzsgb8i1VmObNjVG5YXUORF2TI067SJjDHnKM+yjN53Bkh7l++m2xNroQYm3WU5RSRv/9Js9+xv9Q== fabien@debianVM
+            EOT
+          + username   = "azureuser"
+        }
+
+      + os_disk {
+          + caching                   = "ReadWrite"
+          + disk_size_gb              = (known after apply)
+          + name                      = (known after apply)
+          + storage_account_type      = "Standard_LRS"
+          + write_accelerator_enabled = false
+        }
+
+      + source_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "18.04-LTS"
+          + version   = "latest"
+        }
+
+      + termination_notification (known after apply)
+    }
+
+  # azurerm_network_interface.nic_back[0] will be created
+  + resource "azurerm_network_interface" "nic_back" {
+      + applied_dns_servers         = (known after apply)
+      + id                          = (known after apply)
+      + internal_domain_name_suffix = (known after apply)
+      + location                    = "westeurope"
+      + mac_address                 = (known after apply)
+      + name                        = "nic-back-0"
+      + private_ip_address          = (known after apply)
+      + private_ip_addresses        = (known after apply)
+      + resource_group_name         = "rg-restoproch"
+      + virtual_machine_id          = (known after apply)
+
+      + ip_configuration {
+          + gateway_load_balancer_frontend_ip_configuration_id = (known after apply)
+          + name                                               = "ipconfig"
+          + primary                                            = (known after apply)
+          + private_ip_address                                 = (known after apply)
+          + private_ip_address_allocation                      = "Dynamic"
+          + private_ip_address_version                         = "IPv4"
+          + subnet_id                                          = (known after apply)
+        }
+    }
+
+  # azurerm_network_interface.nic_back[1] will be created
+  + resource "azurerm_network_interface" "nic_back" {
+      + applied_dns_servers         = (known after apply)
+      + id                          = (known after apply)
+      + internal_domain_name_suffix = (known after apply)
+      + location                    = "westeurope"
+      + mac_address                 = (known after apply)
+      + name                        = "nic-back-1"
+      + private_ip_address          = (known after apply)
+      + private_ip_addresses        = (known after apply)
+      + resource_group_name         = "rg-restoproch"
+      + virtual_machine_id          = (known after apply)
+
+      + ip_configuration {
+          + gateway_load_balancer_frontend_ip_configuration_id = (known after apply)
+          + name                                               = "ipconfig"
+          + primary                                            = (known after apply)
+          + private_ip_address                                 = (known after apply)
+          + private_ip_address_allocation                      = "Dynamic"
+          + private_ip_address_version                         = "IPv4"
+          + subnet_id                                          = (known after apply)
+        }
+    }
+
+  # azurerm_network_interface.nic_front[0] will be created
+  + resource "azurerm_network_interface" "nic_front" {
+      + applied_dns_servers         = (known after apply)
+      + id                          = (known after apply)
+      + internal_domain_name_suffix = (known after apply)
+      + location                    = "westeurope"
+      + mac_address                 = (known after apply)
+      + name                        = "nic-front-0"
+      + private_ip_address          = (known after apply)
+      + private_ip_addresses        = (known after apply)
+      + resource_group_name         = "rg-restoproch"
+      + virtual_machine_id          = (known after apply)
+
+      + ip_configuration {
+          + gateway_load_balancer_frontend_ip_configuration_id = (known after apply)
+          + name                                               = "ipconfig"
+          + primary                                            = (known after apply)
+          + private_ip_address                                 = (known after apply)
+          + private_ip_address_allocation                      = "Dynamic"
+          + private_ip_address_version                         = "IPv4"
+          + subnet_id                                          = (known after apply)
+        }
+    }
+
+  # azurerm_network_interface.nic_front[1] will be created
+  + resource "azurerm_network_interface" "nic_front" {
+      + applied_dns_servers         = (known after apply)
+      + id                          = (known after apply)
+      + internal_domain_name_suffix = (known after apply)
+      + location                    = "westeurope"
+      + mac_address                 = (known after apply)
+      + name                        = "nic-front-1"
+      + private_ip_address          = (known after apply)
+      + private_ip_addresses        = (known after apply)
+      + resource_group_name         = "rg-restoproch"
+      + virtual_machine_id          = (known after apply)
+
+      + ip_configuration {
+          + gateway_load_balancer_frontend_ip_configuration_id = (known after apply)
+          + name                                               = "ipconfig"
+          + primary                                            = (known after apply)
+          + private_ip_address                                 = (known after apply)
+          + private_ip_address_allocation                      = "Dynamic"
+          + private_ip_address_version                         = "IPv4"
+          + subnet_id                                          = (known after apply)
+        }
+    }
+
+  # azurerm_public_ip.pip_back will be created
+  + resource "azurerm_public_ip" "pip_back" {
+      + allocation_method       = "Static"
+      + ddos_protection_mode    = "VirtualNetworkInherited"
+      + fqdn                    = (known after apply)
+      + id                      = (known after apply)
+      + idle_timeout_in_minutes = 4
+      + ip_address              = (known after apply)
+      + ip_version              = "IPv4"
+      + location                = "westeurope"
+      + name                    = "pip-back"
+      + resource_group_name     = "rg-restoproch"
+      + sku                     = "Standard"
+      + sku_tier                = "Regional"
+    }
+
+  # azurerm_public_ip.pip_front will be created
+  + resource "azurerm_public_ip" "pip_front" {
+      + allocation_method       = "Static"
+      + ddos_protection_mode    = "VirtualNetworkInherited"
+      + fqdn                    = (known after apply)
+      + id                      = (known after apply)
+      + idle_timeout_in_minutes = 4
+      + ip_address              = (known after apply)
+      + ip_version              = "IPv4"
+      + location                = "westeurope"
+      + name                    = "pip-front"
+      + resource_group_name     = "rg-restoproch"
+      + sku                     = "Standard"
+      + sku_tier                = "Regional"
+    }
+
+  # azurerm_subnet.subnet_back will be created
+  + resource "azurerm_subnet" "subnet_back" {
+      + address_prefixes                              = [
+          + "10.0.1.0/24",
+        ]
+      + default_outbound_access_enabled               = true
+      + id                                            = (known after apply)
+      + name                                          = "subnet-backend"
+      + private_endpoint_network_policies             = "Disabled"
+      + private_link_service_network_policies_enabled = true
+      + resource_group_name                           = "rg-restoproch"
+      + virtual_network_name                          = "vnet-restoproch"
+    }
+
+  # azurerm_subnet.subnet_front will be created
+  + resource "azurerm_subnet" "subnet_front" {
+      + address_prefixes                              = [
+          + "10.0.2.0/24",
+        ]
+      + default_outbound_access_enabled               = true
+      + id                                            = (known after apply)
+      + name                                          = "subnet-frontend"
+      + private_endpoint_network_policies             = "Disabled"
+      + private_link_service_network_policies_enabled = true
+      + resource_group_name                           = "rg-restoproch"
+      + virtual_network_name                          = "vnet-restoproch"
+    }
+
+  # azurerm_virtual_network.vnet will be created
+  + resource "azurerm_virtual_network" "vnet" {
+      + address_space       = [
+          + "10.0.0.0/16",
+        ]
+      + dns_servers         = (known after apply)
+      + guid                = (known after apply)
+      + id                  = (known after apply)
+      + location            = "westeurope"
+      + name                = "vnet-restoproch"
+      + resource_group_name = "rg-restoproch"
+      + subnet              = (known after apply)
+    }
+
+Plan: 15 to add, 0 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you
+run "terraform apply" now.
