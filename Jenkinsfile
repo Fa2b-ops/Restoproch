@@ -39,10 +39,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                // Script pour copier les fichiers vers les VMs frontend
+                // Script pour copier les fichiers vers les VMs frontend scp -o StrictHostKeyChecking=no -r App/hello-world-app/build/* azureuser@52.174.138.254:/var/www/restoproch-frontend/
                 sh '''
                 scp -o StrictHostKeyChecking=no -r App/hello-world-app/build/* azureuser@52.178.5.218:/var/www/restoproch-frontend/
-                scp -o StrictHostKeyChecking=no -r App/hello-world-app/build/* azureuser@52.174.138.254:/var/www/restoproch-frontend/
+                
                 '''
             }
         }
