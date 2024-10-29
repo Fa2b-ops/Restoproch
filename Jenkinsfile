@@ -41,8 +41,8 @@ pipeline {
             steps {
                 // Script pour copier les fichiers vers les VMs frontend
                 sh '''
-                scp -r App/hello-world-app/build/* azureuser@52.178.5.218:/var/www/restoproch-frontend/
-                scp -r App/hello-world-app/build/* azureuser@52.174.138.254:/var/www/restoproch-frontend/
+                scp -o StrictHostKeyChecking=no -r App/hello-world-app/build/* azureuser@52.178.5.218:/var/www/restoproch-frontend/
+                scp -o StrictHostKeyChecking=no -r App/hello-world-app/build/* azureuser@52.174.138.254:/var/www/restoproch-frontend/
                 '''
             }
         }
