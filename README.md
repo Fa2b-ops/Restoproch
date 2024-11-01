@@ -7,9 +7,9 @@ Le client a ensuite un numéro de commande et vient le chercher dans le restaura
 Le site Internet (font + back + bdd) de cette chaîne est hébergé dans leurs serveurs (on premise). </br>
 La performance de ce site est bien de manière générale, mais l’équipe technique a remarqué que dans certaines périodes (fête + vacances), les serveurs ne tiennent pas la charge et rencontrent de vraies difficultés.</br>
 Étant donné que ce site fait 100 % de chiffre d’affaires de l’entreprise, chaque heure le site hors ligne coûte à l’entreprise, car le client qui tente deux/trois fois pour faire sa commande abandonne si ça ne marche pas pour un autre restaurant. </p>
-Une réunion entre le directeur de l’entreprise, l’architecte technique, les développeurs et les DevOps a eu lieu afin de trouver une solution. Suite à cette réunion, ils ont pris les décisions suivantes :
-- Recovery time objective (TTO) = H : si l’application est down, la durée maximum autorisée est1 h, et il faut que remonte UP.
-- Recovery point objective (RPO) = 12H : il faut faire des sauvegardes automatiques toutes les12 h.</p>
+Une réunion entre le directeur de l’entreprise, l’architecte technique, les développeurs et les DevOps a eu lieu afin de trouver une solution. Suite à cette réunion, ils ont pris les décisions suivantes :</p>
+Recovery time objective (TTO) = H : si l’application est down, la durée maximum autorisée est1 h, et il faut que remonte UP.</br>
+Recovery point objective (RPO) = 12H : il faut faire des sauvegardes automatiques toutes les12 h.</p>
 Suite à ces décisions, l’architecte a proposé :
 - de doubler les serveurs back (qui est en java) et serveurs front en mettant un load balancerpour les deux ;
 - un Snapshot automatique de la BDD toutes les 12 h (durée max de chaque snapshot 30 jours) ;
